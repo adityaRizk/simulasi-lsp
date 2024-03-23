@@ -16,4 +16,16 @@ class Jadwal extends Model
     {
         return $this->belongsTo(Rute::class);
     }
+
+    /**
+     * Get all of the maskapai for the Jadwal
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
+     */
+    public function maskapai()
+    {
+        return $this->hasOneThrough(Maskapai::class, Rute::class);
+    }
+
+
 }

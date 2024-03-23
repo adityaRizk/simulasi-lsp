@@ -4,8 +4,8 @@
 
     <form action="" method="post" enctype="multipart/form-data">
         @csrf
-        <label for="maskapai_id">Maskapai</label>
-        <select name="maskapai_id" id="maskapai_id">
+        <label class="form-label" for="maskapai_id">Maskapai</label>
+        <select class="form-control" name="maskapai_id" id="maskapai_id">
             @foreach ($maskapai as $item)
                 <option value="{{ $item->id }}">{{ $item->nama_maskapai }}</option>
             @endforeach
@@ -15,8 +15,8 @@
         @enderror
         <br>
 
-        <label for="rute_asal">Rute Asal</label>
-        <select name="rute_asal" id="rute_asal">
+        <label class="form-label" for="rute_asal">Rute Asal</label>
+        <select class="form-control" name="rute_asal" id="rute_asal">
             @foreach ($kota as $item)
                 <option value="{{ $item->nama_kota }}">{{ $item->nama_kota }}</option>
             @endforeach
@@ -26,8 +26,8 @@
         @enderror
         <br>
 
-        <label for="rute_tujuan">Rute Tujuan</label>
-        <select name="rute_tujuan" id="rute_tujuan">
+        <label class="form-label" for="rute_tujuan">Rute Tujuan</label>
+        <select class="form-control" name="rute_tujuan" id="rute_tujuan">
             @foreach ($kota as $item)
                 <option value="{{ $item->nama_kota }}">{{ $item->nama_kota }}</option>
             @endforeach
@@ -37,11 +37,19 @@
         @enderror
         <br>
 
-        <label for="tanggal_pergi">Tanggal Pergi</label>
-        <input type="date" name="tanggal_pergi" id='tanggal_pergi'>
+        <label class="form-label" for="kapasitas">Kapasitas</label>
+        <input type="number" class="form-control" name="kapasitas" value="{{ old('kapasitas') }}" id="kapasitas">
+        @error('kapasitas')
+            <p>{{ $message }}</p>
+        @enderror
+        <br>
+
+        <label class="form-label" for="tanggal_pergi">Tanggal Pergi</label>
+        <input type="date" class="form-control" name="tanggal_pergi" id='tanggal_pergi'>
         @error('tanggal_pergi')
             {{ $message }}
         @enderror
-        <button type="submit">Login</button>
+        <br>
+        <button type="submit" class="btn btn-success">Buat</button>
     </form>
 @endsection

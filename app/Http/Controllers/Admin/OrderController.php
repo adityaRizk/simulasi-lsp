@@ -34,7 +34,7 @@ class OrderController extends Controller
     public function terima(string $id)
     {
         $order = Order::find($id)->update(['acc' => 'Diterima']);
-        return redirect('/admin/konfirmasi');
+        return redirect('/admin/konfirmasi')->with('success','data berhasil di ACC');
     }
 
     /**
@@ -45,7 +45,7 @@ class OrderController extends Controller
     public function tolak(string $id)
     {
         $order = Order::find($id)->update(['acc' => 'Ditolak']);
-        return redirect('/admin/konfirmasi');
+        return redirect('/admin/konfirmasi')->with('success','data berhasil di tolak');
     }
 
     /**
@@ -57,6 +57,6 @@ class OrderController extends Controller
     public function hapus(string $id)
     {
         $order = Order::find($id)->delete();
-        return redirect('/admin/konfirmasi/riwayat');
+        return redirect('/admin/konfirmasi/riwayat')->with('success','Data berhasil di hapus');
     }
 }

@@ -2,6 +2,11 @@
 @section('content')
 <h1>kota page</h1>
 <a href="/admin/kota/create" class="btn btn-primary">Tambah kota</a>
+@if (Session::has('success'))
+    <div class="alert alert-success mt-4">
+        {{ Session::get('success') }}
+    </div>
+@endif
 <table class="table">
     <thead>
 

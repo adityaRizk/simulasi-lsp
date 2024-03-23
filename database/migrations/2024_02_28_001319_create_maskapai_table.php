@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->text('logo_maskapai');
             $table->string('nama_maskapai');
-            $table->integer('kapasitas');
             $table->timestamps();
         });
     }

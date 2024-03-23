@@ -16,4 +16,14 @@ class Maskapai extends Model
     {
         return $this->hasOne(Rute::class);
     }
+
+    /**
+     * Get all of the jadwal for the Maskapai
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function jadwal()
+    {
+        return $this->hasOneThrough(Jadwal::class, Rute::class);
+    }
 }

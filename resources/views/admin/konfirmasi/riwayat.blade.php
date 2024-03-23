@@ -1,6 +1,11 @@
 @extends('components.navbar')
 @section('content')
 <h1>Riwayat page</h1>
+@if (Session::has('success'))
+    <div class="alert alert-success mt-4">
+        {{ Session::get('success') }}
+    </div>
+@endif
 <table class="table">
     <thead>
         <tr>

@@ -4,7 +4,7 @@
     <form action="" method="post">
         @csrf
         @if (Session::has('success'))
-            <p>{{ Session::get('success') }}</p>
+            <p class="alert alert-success">{{ Session::get('success') }}</p>
         @endif
         <label class="form-label" for="username">username</label>
         <input class="form-control" type="text" name="username" id="username">

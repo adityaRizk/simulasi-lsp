@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Pengguna;
 
-use App\Http\Controllers\Controller;
-use App\Models\Jadwal;
-use App\Models\Order;
+use Carbon\Carbon;
 use App\Models\Rute;
 use App\Models\User;
-use Carbon\Carbon;
+use App\Models\Order;
+use App\Models\Jadwal;
+use App\Models\Maskapai;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class TiketController extends Controller
@@ -49,8 +50,8 @@ class TiketController extends Controller
             'jumlah_tiket' => 'required|numeric|min:1|max:50',
         ]);
 
-        $jadwal = Jadwal::find($credentials['jadwal_id'])->first();
-        // dd(date('Y-m-d'));
+        $jadwal = Jadwal::find($credentials['jadwal_id']);
+        // dd($jadwal);
         $jumlah_tiket = $credentials['jumlah_tiket'];
         $total_harga = $credentials['jumlah_tiket'] * $jadwal->harga;
         $tanggal_transaksi = date('Y-m-d');
@@ -63,32 +64,43 @@ class TiketController extends Controller
         $rute = Rute::all();
         $rute_asal = request()->rute_asal;
         $rute_tujuan = request()->rute_tujuan;
-        if(request()->rute_asal && request()->rute_tujuan){
-            $jadwal = Jadwal::with('rute')->whereHas('rute', function ($query){
-                return $query->where('rute_asal','=',request()->rute_asal)->where('rute_tujuan','=',request()->rute_tujuan);
-            })->get();
-        }elseif(request()->rute_asal){
-            $jadwal = Jadwal::with('rute')->whereHas('rute', function ($query){
-                return $query->where('rute_asal','=',request()->rute_asal);
-            })->get();
-        }elseif(request()->rute_tujuan){
-            $jadwal = Jadwal::with('rute')->whereHas('rute', function ($query){
-                return $query->where('rute_tujuan','=',request()->rute_tujuan);
-            })->get();
-        }else{
-            $jadwal = Jadwal::with('rute')->latest()->get();
-        }
-        // dd(request()->rute);
-        // $jadwal = $data->rute->with('maskapai')->whereHas('maskapai', function($query){
-        //     return $query->where('nama_maskapai','=','Garudi');
-        // })->get();
-        // dd($jadwal->);
-        // if(request()->cari){
-        //     $jadwal->where('')
-        // }
+        $nama_maskapai = request()->nama_maskapai;
 
-        // $jadwal->latest()->get();
-        return view('pengguna.jadwal', compact('jadwal','rute','rute_asal','rute_tujuan'));
+        if($nama_maskapai){
+            if(request()->rute_asal && request()->rute_tujuan){
+                $maskapai = Maskapai::with('rute','jadwal')->whereHas('rute', function ($query){
+                    return $query->where('rute_asal','=',request()->rute_asal)->where('rute_tujuan','=',request()->rute_tujuan);
+                })->where('nama_maskapai',$nama_maskapai)->get();
+            }elseif(request()->rute_asal){
+                $maskapai = Maskapai::with('rute','jadwal')->whereHas('rute', function ($query){
+                    return $query->where('rute_asal','=',request()->rute_asal);
+                })->get();
+            }elseif(request()->rute_tujuan){
+                $maskapai = Maskapai::with('rute','jadwal')->whereHas('rute', function ($query){
+                    $query->where('rute_tujuan','=',request()->rute_tujuan);
+                })->get();
+            }else{
+                $maskapai = Maskapai::with('rute','jadwal')->where('nama_maskapai',$nama_maskapai)->get();
+            }
+        }else{
+            if(request()->rute_asal && request()->rute_tujuan){
+                $maskapai = Maskapai::with('rute','jadwal')->whereHas('rute', function ($query){
+                    return $query->where('rute_asal','=',request()->rute_asal)->where('rute_tujuan','=',request()->rute_tujuan);
+                })->get();
+            }elseif(request()->rute_asal){
+                $maskapai = Maskapai::with('rute','jadwal')->whereHas('rute', function ($query){
+                    return $query->where('rute_asal','=',request()->rute_asal);
+                })->get();
+            }elseif(request()->rute_tujuan){
+                $maskapai = Maskapai::with('rute','jadwal')->whereHas('rute', function ($query){
+                    return $query->where('rute_tujuan','=',request()->rute_tujuan);
+                })->get();
+            }else{
+                $maskapai = Maskapai::with('rute','jadwal')->latest()->get();
+            }
+        }
+
+        return view('pengguna.jadwal', compact('maskapai','rute','rute_asal','rute_tujuan'));
     }
 
     public function riwayat()
@@ -121,9 +133,15 @@ class TiketController extends Controller
 
         // $orders = Order::with('tiket')->get();
 
-        // $jadwal = Jadwal::find($credentials['jadwal_id'])->first();
-
-        // dd($orders->tiket->where('id',1));
+        $jadwal = Jadwal::with('rute')->find($credentials['jadwal_id']);
+        $kapasitas = $jadwal->rute->kapasitas - $credentials['jumlah_tiket'];
+        // dd($jadwal->id);
+        if($kapasitas < 0){
+            return redirect('/pengguna/jadwal/'.$jadwal->id)->withErrors(['error' => 'Jumlah tiket melebihi jumlah kapasitas']);
+        }else{
+            $jadwal->rute->update(['kapasitas' => $kapasitas]);
+        }
+        // dd($);
         // do{
             // $struk = random_bytes(10);
             $struk = random_int(1000000000,9000000000);

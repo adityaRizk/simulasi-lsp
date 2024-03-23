@@ -1,6 +1,11 @@
 @extends('components.navbar')
 @section('content')
 <h1>Konfirmasi page</h1>
+@if (Session::has('success'))
+    <div class="alert alert-success mt-4">
+        {{ Session::get('success') }}
+    </div>
+@endif
 <table>
     <tr>
         <th>No</th>

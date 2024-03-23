@@ -40,7 +40,6 @@ class MaskapaiController extends Controller
         $credentials = $request->validate([
             'nama_maskapai' => 'required',
             'logo_maskapai' => 'required',
-            'kapasitas' => 'required|numeric|max:50|min:1',
         ]);
 
         $img = $credentials['logo_maskapai'];
@@ -52,7 +51,7 @@ class MaskapaiController extends Controller
 
         Maskapai::create($credentials);
 
-        return redirect('/admin/maskapai')->with('success','Akun berhasil dibuat');
+        return redirect('/admin/maskapai')->with('success','Masakapai berhasil dibuat');
     }
 
     /**
@@ -90,7 +89,6 @@ class MaskapaiController extends Controller
         $credentials = $request->validate([
             'nama_maskapai' => 'required',
             'logo_maskapai' => 'nullable',
-            'kapasitas' => 'required|numeric|max:50|min:1',
         ]);
 
         if($request->hasFile('logo_maskapai')){
@@ -105,7 +103,7 @@ class MaskapaiController extends Controller
 
         Maskapai::find($id)->update($credentials);
 
-        return redirect('/admin/maskapai')->with('success','Akun berhasil dibuat');
+        return redirect('/admin/maskapai')->with('success','Masakapai berhasil dibuat');
     }
 
     /**
@@ -118,6 +116,6 @@ class MaskapaiController extends Controller
     {
         Maskapai::find($id)->delete();
 
-        return redirect('/admin/maskapai')->with('success','Akun berhasil dihapus');
+        return redirect('/admin/maskapai')->with('success','Masakapai berhasil dihapus');
     }
 }

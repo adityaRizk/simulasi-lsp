@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('maskapai_id');
             $table->foreign('maskapai_id')->references('id')->on('maskapai')->onDelete('cascade');
+            $table->integer('kapasitas');
             $table->string('rute_asal');
             $table->string('rute_tujuan');
             $table->date('tanggal_pergi');

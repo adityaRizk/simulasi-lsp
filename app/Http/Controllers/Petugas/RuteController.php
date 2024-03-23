@@ -47,6 +47,7 @@ class RuteController extends Controller
             'rute_asal' => 'required',
             'rute_tujuan' => 'required',
             'tanggal_pergi' => 'required',
+            'kapasitas' => 'required|numeric|max:50|min:1',
         ]);
 
         Rute::create($credentials);
@@ -93,6 +94,7 @@ class RuteController extends Controller
             'rute_asal' => 'required',
             'rute_tujuan' => 'required',
             'tanggal_pergi' => 'required',
+            'kapasitas' => 'required|numeric|max:50|min:1',
         ]);
 
         Rute::find($id)->update($credentials);

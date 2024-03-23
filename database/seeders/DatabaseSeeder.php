@@ -50,14 +50,12 @@ class DatabaseSeeder extends Seeder
 
         Maskapai::create([
             'nama_maskapai' => 'Garuda',
-            'kapasitas' => '3',
-            'logo_maskapai' => 'foto1.png',
+            'logo_maskapai' => 'Garuda.jpg',
         ]);
 
         Maskapai::create([
             'nama_maskapai' => 'Garudi',
-            'kapasitas' => '2',
-            'logo_maskapai' => 'foto1.png',
+            'logo_maskapai' => 'Garuda.jpg',
         ]);
 
         Kota::create([
@@ -81,12 +79,14 @@ class DatabaseSeeder extends Seeder
             'rute_asal' => 'Jawa',
             'rute_tujuan' => 'Konoha',
             'tanggal_pergi' => '2009-02-10',
+            'kapasitas' => 20,
         ]);
         Rute::create([
             'maskapai_id' => '1',
             'rute_asal' => 'Jakarta',
             'rute_tujuan' => 'bandung',
             'tanggal_pergi' => '2004-02-10',
+            'kapasitas' => 20,
         ]);
 
         Jadwal::create([

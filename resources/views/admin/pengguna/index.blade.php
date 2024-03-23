@@ -1,6 +1,11 @@
 @extends('components.navbar')
 @section('content')
 <h1>penumpang page</h1>
+@if (Session::has('success'))
+    <div class="alert alert-success">
+        {{ Session::get('success') }}
+    </div>
+@endif
 <a href="/admin/pengguna/create" class="btn btn-primary">Tambah Pengguna</a>
 <table class="table">
     <thead>
